@@ -21,7 +21,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.4'
+          php-version: '8.1'
 
       - name: Check if composer.json exists
         id: check_files
@@ -33,14 +33,12 @@ jobs:
         if: steps.check_files.outputs.files_exists == 'true'
         run: composer validate --no-check-publish && composer install --prefer-dist --no-progress
 
-      - name: Zip artifact for deployment
-        run: zip release.zip ./* -r
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: php-app
-          path: release.zip
+          path: .
 
   deploy:
     runs-on: ubuntu-latest
@@ -54,16 +52,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: php-app
-
-      - name: Unzip artifact for deployment
-        run: unzip release.zip
       
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_CE7D594A561C4B96B0AACE800A005B65 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_7FE7D9E61F544F138ADF22527F0CB129 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_F293502AC3304F3C9249637F2FB2A276 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_6B9D2B8B14FF46AF82439124CF0AB1D3 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_4E661713C1934AF2928D5B7015DC4A25 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_EF6A304A42E840659CDBBE3E6E3675F3 }}
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
