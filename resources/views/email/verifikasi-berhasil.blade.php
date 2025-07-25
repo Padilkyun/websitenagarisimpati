@@ -112,3 +112,7 @@
 </body>
 
 </html>
+<?php
+Route::get('/verifikasi-email/{hash}/{expire}/{signature}', [VerifikasiController::class, 'verifikasiEmail'])->name('verifikasi.email');
+Mail::to($user->email)->send(new VerificationSuccessMail($user->nama));
+?>

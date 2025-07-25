@@ -64,3 +64,4 @@ class VerificationMail extends Mailable
             ]);
     }
 }
+Route::get('/verify-email/{hash}/{expire}/{signature}', [VerifikasiController::class, 'verifyEmail'])->name('verify.email');
